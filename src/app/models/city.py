@@ -17,6 +17,7 @@ class City(PaginatedAPIMixin, db.Model):
         data = {
             'id': self.id,
             'name': self.name,
+            'number_of_landmarks': len(self.landmarks),
             '_links': {
                 'self': url_for('api.get_city', id=self.id),
             }
