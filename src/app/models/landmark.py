@@ -18,10 +18,11 @@ class Landmark(PaginatedAPIMixin, db.Model):
     def to_dict(self, include_email=False):
         data = {
             'id': self.id,
-            'name': self.username,
+            'name': self.name,
             'description': self.description,
             '_links': {
-                'self': url_for('api.get_landmark', id=self.id),
+                'self': url_for('api.get_landmark', cityId=self.city_id, 
+                                id=self.id),
             }
         }
         return data

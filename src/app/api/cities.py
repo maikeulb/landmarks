@@ -37,7 +37,7 @@ def create_city():
 @api.route('/cities/<int:id>', methods=['PUT'])
 def update_city(id):
     city = City.query.get_or_404(id)
-    city.from_dict(request.get_json() or {}, new_user=False)
+    city.from_dict(request.get_json() or {})
     db.session.commit()
     return '', 204
 
