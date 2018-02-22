@@ -50,6 +50,17 @@ def create_city():
 
 @api.route('/cities/<int:id>', methods=['PUT'])
 def update_city(id):
+    data = request.get_json() or {}
+    if 'name' not in data or 'state' not in data:
+        return bad_request('must include name and state fields')
+    city = City.query.get_or_404(id)
+    city.from_dict(data)
+    db.session.commit()
+    return '', 204
+
+
+@api.route('/cities/<int:id>', methods=['PATCH'])
+def partial_update_city(id):
     city = City.query.get_or_404(id)
     city.from_dict(request.get_json() or {})
     db.session.commit()

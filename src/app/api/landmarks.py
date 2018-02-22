@@ -52,6 +52,19 @@ def create_landmark(cityId):
 
 @api.route('/cities/<int:cityId>/landmarks/<int:id>', methods=['PUT'])
 def update_landmark(cityId, id):
+    data = request.get_json() or {}
+    if 'name' not in data or 'description' not in data:
+        return bad_request('must include name and description fields')
+    landmark = Landmark.query \
+            .filter(Landmark.city_id == cityId, Landmark.id == id) \
+            .first_or_404()
+    landmark.from_dict(data)
+    db.session.commit()
+    return '', 204
+
+
+@api.route('/cities/<int:cityId>/landmarks/<int:id>', methods=['PATCH'])
+def partial_update_landmark(cityId, id):
     landmark = Landmark.query \
             .filter(Landmark.city_id == cityId, Landmark.id == id) \
             .first_or_404()
