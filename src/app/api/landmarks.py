@@ -1,18 +1,25 @@
 import sys
-from flask import jsonify, request, url_for
+from flask import jsonify, request
 from app import db
-from app.models import Landmark, City
+from app.models import Landmark
 from app.api import api
 from app.api.errors import bad_request
+from sqlalchemy import func
 
 
-@api.route('/cities/<int:cityId>/landmarks', methods=['GET'])
-def get_landmarks(cityId):
-    print('hey', sys.stdout)
-    landmarks = Landmark.query.filter(Landmark.city_id == cityId)
+@api.route('/cities/<int:cityId>/landmarks', defaults={'search_query': None}, methods=['GET'])
+def get_landmarks(cityId, search_query):
+    search_query = request.args.get('search_query')
+    landmark_query = Landmark.query.filter(Landmark.city_id == cityId)
+
+    if search_query:
+        landmark_query = \
+        landmark_query.filter(func.lower(Landmark.name).contains(func.lower(search_query)) | \
+                              func.lower(Landmark.description).contains(func.lower(search_query)))
+
     page = request.args.get('page', 1, type=int)
     per_page = min(request.args.get('per_page', 10, type=int), 100)
-    data = Landmark.to_collection_dict(landmarks, page, per_page,
+    data = Landmark.to_collection_dict(landmark_query, page, per_page,
                                    'api.get_landmarks', cityId=cityId)
     return jsonify(data)
 
