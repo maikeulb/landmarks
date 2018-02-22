@@ -1,2 +1,2 @@
 from .city import *
-from .landmarks import *
+from .landmark import *

@@ -1,15 +1,14 @@
 from flask import jsonify, request, url_for
 from app import db
-from app.models import User
-from app.api import bp
-from app.api.errors import bad_request
+from app.models import Landmark, City
+from app.api import api
 from app.api.errors import bad_request
 
 
 @api.route('/cities/<int:cityId>/landmarks', methods=['GET'])
 def get_landmarks(cityId):
     landmarks = Landmark.query \
-            .filter_by(Landmark.city_id == cityId)
+            .filter_by(Landmark.city_id == cityId) \
             .first_or_404()
     page = request.args.get('page', 1, type=int)
     per_page = min(request.args.get('per_page', 10, type=int), 100)
@@ -21,7 +20,7 @@ def get_landmarks(cityId):
 @api.route('/cities/<int:cityId>/landmarks/<int:id>', methods=['GET'])
 def get_landmark(cityId, id):
     landmark = Landmark.query \
-            .filter(Landmark.city_id == cityId, Landmark.id == id)
+            .filter(Landmark.city_id == cityId, Landmark.id == id) \
             .get_or_404()
     page = request.args.get('page', 1, type=int)
     per_page = min(request.args.get('per_page', 10, type=int), 100)
@@ -49,7 +48,7 @@ def update_landmark(cityId, id):
     data = request.get_json() or {}
     landmark = Landmark()
     landmark = Landmark.query \
-            .filter(Landmark.city_id == cityId, Landmark.id == id)
+            .filter(Landmark.city_id == cityId, Landmark.id == id) \
             .get_or_404()
     data = request.get_json() or {}
     landmark.from_dict(request.get_json() or {})
@@ -60,7 +59,7 @@ def update_landmark(cityId, id):
 @api.route('/cities/<int:cityId>/landmarks/<int:id>', methods=['DELETE'])
 def delete_landmark(cityId, id):
     landmark = Landmark.query \
-            .filter(Landmark.city_id == cityId, Landmark.id == id)
+            .filter(Landmark.city_id == cityId, Landmark.id == id) \
             .get_or_404()
     db.session.delete(landmark)
     db.session.commit()

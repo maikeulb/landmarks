@@ -1,5 +1,6 @@
+from flask import url_for
 from app.extensions import db
-from app.api.mixins import PaginatedAPIMixin
+from app.models.mixins import PaginatedAPIMixin
 
 
 class Landmark(PaginatedAPIMixin, db.Model):
@@ -8,10 +9,10 @@ class Landmark(PaginatedAPIMixin, db.Model):
     id = db.Column(db.Integer, primary_key=True)
     name = db.Column(db.String(50))
     description = db.Column(db.String(140))
-    city_id = db.Column(db.Integer, db.ForeignKey('landmark.id'))
+    city_id = db.Column(db.Integer, db.ForeignKey('cities.id'))
 
     city = db.relationship(
-        'City',
+        'City'
     )
 
     def to_dict(self, include_email=False):
@@ -26,6 +27,6 @@ class Landmark(PaginatedAPIMixin, db.Model):
         return data
 
     def from_dict(self, data, new_user=False):
-        for field in ['name', 'description']
+        for field in ['name', 'description']:
             if field in data:
                 setattr(self, field, data[field])

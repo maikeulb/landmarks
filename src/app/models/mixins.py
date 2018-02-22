@@ -1,3 +1,6 @@
+from flask import url_for
+
+
 class PaginatedAPIMixin(object):
     @staticmethod
     def to_collection_dict(query, page, per_page, endpoint, **kwargs):

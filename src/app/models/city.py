@@ -1,5 +1,6 @@
+from flask import url_for
 from app.extensions import db
-from app.api.mixins import PaginatedAPIMixin
+from app.models.mixins import PaginatedAPIMixin
 
 
 class City(PaginatedAPIMixin, db.Model):
@@ -10,7 +11,7 @@ class City(PaginatedAPIMixin, db.Model):
     state = db.Column(db.String(50))
 
     landmarks = db.relationship(
-        'Landmark',
+        'Landmark'
     )
 
     def to_dict(self, include_email=False):
@@ -25,6 +26,6 @@ class City(PaginatedAPIMixin, db.Model):
         return data
 
     def from_dict(self, data, new_user=False):
-        for field in ['name', 'state']
+        for field in ['name', 'state']:
             if field in data:
                 setattr(self, field, data[field])

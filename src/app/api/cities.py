@@ -1,6 +1,6 @@
 from flask import jsonify, request, url_for
 from app import db
-from app.models import city
+from app.models import City
 from app.api import api
 from app.api.errors import bad_request
 

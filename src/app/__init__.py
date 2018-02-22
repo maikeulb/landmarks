@@ -3,12 +3,12 @@ import os
 from flask import (
     Flask,
     request)
-from app import commands, models
-from app.api import api as api_bp
+from app import models
 from app.extensions import (
     db,
     migrate,
 )
+from app.api import api as api_bp
 
 Config = eval(os.environ['FLASK_APP_CONFIG'])
 
@@ -24,7 +24,6 @@ def create_app(config_class=Config):
 def register_extensions(app):
     db.init_app(app)
     migrate.init_app(app, db)
-    patch_request_class(app)
     return None
 
 
