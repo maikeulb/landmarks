@@ -11,12 +11,14 @@ from sqlalchemy import func
 def get_landmarks(cityId, search_query):
     search_query = request.args.get('search_query')
     landmark_query = Landmark.query.filter(Landmark.city_id == cityId)
+    print(landmark_query, sys.stdout)
 
     if search_query:
         landmark_query = \
         landmark_query.filter(func.lower(Landmark.name).contains(func.lower(search_query)) | \
                               func.lower(Landmark.description).contains(func.lower(search_query)))
 
+    print(landmark_query, sys.stdout)
     page = request.args.get('page', 1, type=int)
     per_page = min(request.args.get('per_page', 10, type=int), 100)
     data = Landmark.to_collection_dict(landmark_query, page, per_page,
