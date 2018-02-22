@@ -3,57 +3,65 @@ from app import db
 from app.models import User
 from app.api import bp
 from app.api.errors import bad_request
+from app.api.errors import bad_request
 
 
-@api.route('/courses', methods=['GET'])
-def get_courses():
-    course_query = Course.query
+@api.route('/cities/<int:cityId>/landmarks', methods=['GET'])
+def get_landmarks(cityId):
+    landmarks = Landmark.query \
+            .filter_by(Landmark.city_id == cityId)
+            .first_or_404()
     page = request.args.get('page', 1, type=int)
     per_page = min(request.args.get('per_page', 10, type=int), 100)
-    data = Course.to_collection_dict(course_query, page, per_page, 
-                                      'api.get_courses')
+    data = City.to_collection_dict(landmark, page, per_page, 
+                                      'api.get_cities')
     return jsonify(data)
 
 
-@api.route('/courses/<int:id>/', methods=['GET'])
-def get_course(id):
-    course_query = Course.query.get_or_404(id)
+@api.route('/cities/<int:cityId>/landmarks/<int:id>', methods=['GET'])
+def get_landmark(cityId, id):
+    landmark = Landmark.query \
+            .filter(Landmark.city_id == cityId, Landmark.id == id)
+            .get_or_404()
     page = request.args.get('page', 1, type=int)
     per_page = min(request.args.get('per_page', 10, type=int), 100)
-    data = Course.to_collection_dict(course_query, page, per_page,
-                                   'api.get_course', id=id)
+    data = Landmark.to_collection_dict(landmark, page, per_page,
+                                       'api.get_landmark', id=id)
     return jsonify(data)
 
 
-@api.route('/courses', methods=['POST'])
-def create_course():
+@api.route('/cities/<int:cityId>/landmarks', methods=['POST'])
+def create_landmark(cityId):
     data = request.get_json() or {}
-    if 'first_name' not in data or 'last_name' not in data or 'enrollment_date' not in data:
-        return bad_request('must include first_name, last_name and \
-                           enrollment_date fields')
-    course = Course()
-    course.from_dict(data, new_user=True)
-    db.session.add(course)
+    if 'name' not in data or 'description' not in data or 'cityId' not in data:
+        return bad_request('must include name, description and cityId fields')
+    landmark = Landmark()
+    landmark.from_dict(data, new_user=True)
+    db.session.add(landmark)
     db.session.commit()
-    response = jsonify(course.to_dict())
+    response = jsonify(landmark.to_dict())
     response.status_code = 201
     return response
 
 
-@api.route('/courses/<int:id>', methods=['PUT'])
-def update_course(id):
-    course = Course.query.get_or_404(id)
+@api.route('/cities/<int:cityId>/landmarks/<int:id>', methods=['PUT'])
+def update_landmark(cityId, id):
     data = request.get_json() or {}
-    course.from_dict(request.get_json() or {}, new_user=False)
+    landmark = Landmark()
+    landmark = Landmark.query \
+            .filter(Landmark.city_id == cityId, Landmark.id == id)
+            .get_or_404()
+    data = request.get_json() or {}
+    landmark.from_dict(request.get_json() or {})
     db.session.commit()
-    response.status_code = 204
-    return response
+    return '', 204
 
 
-@api.route('/courses/<int:id>', methods=['DELETE'])
-def delete_course(id):
-    course = Course.query.get_or_404(id)
-    db.session.delete(course)
+@api.route('/cities/<int:cityId>/landmarks/<int:id>', methods=['DELETE'])
+def delete_landmark(cityId, id):
+    landmark = Landmark.query \
+            .filter(Landmark.city_id == cityId, Landmark.id == id)
+            .get_or_404()
+    db.session.delete(landmark)
     db.session.commit()
-    response.status_code = 204
-    return response
+    return '', 204
