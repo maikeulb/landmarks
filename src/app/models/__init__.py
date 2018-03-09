@@ -1,2 +1,2 @@
-from .city import *
+from .borough import *
 from .landmark import *

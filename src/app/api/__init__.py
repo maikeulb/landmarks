@@ -2,4 +2,4 @@ from flask import Blueprint
 
 api = Blueprint('api', __name__)
 
-from app.api import cities, landmarks, errors
+from app.api import boroughs, landmarks, errors

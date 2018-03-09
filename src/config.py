@@ -9,17 +9,15 @@ load_dotenv(dotenv_path)
 class Config(object):
 
     SQLALCHEMY_DATABASE_URI = os.environ.get('DATABASE_URI') or \
-      'postgresql://postgres:P@ssw0rd!@172.17.0.2/cityskyscrapers'
+      'postgresql://postgres:P@ssw0rd!@172.17.0.2/nyclandmarks'
     SQLALCHEMY_TRACK_MODIFICATIONS = False
 
-    UPLOADS_DEFAULT_DEST = basedir + '/app/static/uploads/'
-    UPLOADS_DEFAULT_URL = 'http://localhost:5000/static/uploads/'
-    POSTS_PER_PAGE = 4
- 
+    POSTS_PER_PAGE = 10
+
     DEVELOPMENT = False
     TESTING = False
     PRODUCTION = False
-    DEBUG = False 
+    DEBUG = False
     TESTING = False
 
 class DevelopmentConfig(Config):
@@ -34,6 +32,3 @@ class ProductionConfig(Config):
 class TestingConfig(Config):
     DEBUG = True
     TESTING = True
-    BCRYPT_LOG_ROUNDS = 4  
-    CSRF_ENABLED = False
-    WTF_CSRF_ENABLED = False  

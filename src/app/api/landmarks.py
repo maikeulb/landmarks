@@ -7,76 +7,75 @@ from app.api.errors import bad_request
 from sqlalchemy import func
 
 
-@api.route('/cities/<int:cityId>/landmarks', defaults={'search_query': None}, methods=['GET'])
-def get_landmarks(cityId, search_query):
+@api.route('/boroughs/<int:boroughId>/landmarks', defaults={'search_query': None}, methods=['GET'])
+def get_landmarks(boroughId, search_query):
     search_query = request.args.get('search_query')
-    landmark_query = Landmark.query.filter(Landmark.city_id == cityId)
-    print(landmark_query, sys.stdout)
+    landmark_query = Landmark.query.filter(Landmark.borough_id == boroughId)
 
     if search_query:
         landmark_query = \
         landmark_query.filter(func.lower(Landmark.name).contains(func.lower(search_query)) | \
-                              func.lower(Landmark.description).contains(func.lower(search_query)))
+                              func.lower(Landmark.description).contains(func.lower(search_query)) | \
+                              func.lower(Landmark.date_designated).contains(func.lower(search_query)))
 
-    print(landmark_query, sys.stdout)
     page = request.args.get('page', 1, type=int)
     per_page = min(request.args.get('per_page', 10, type=int), 100)
     data = Landmark.to_collection_dict(landmark_query, page, per_page,
-                                   'api.get_landmarks', cityId=cityId)
+                                   'api.get_landmarks', boroughId=boroughId)
     return jsonify(data)
 
 
-@api.route('/cities/<int:cityId>/landmarks/<int:id>', methods=['GET'])
-def get_landmark(cityId, id):
+@api.route('/boroughs/<int:boroughId>/landmarks/<int:id>', methods=['GET'])
+def get_landmark(boroughId, id):
     landmark = Landmark.query \
-            .filter(Landmark.city_id == cityId, Landmark.id == id)
+            .filter(Landmark.borough_id == boroughId, Landmark.id == id)
     page = request.args.get('page', 1, type=int)
     per_page = min(request.args.get('per_page', 10, type=int), 100)
     data = Landmark.to_collection_dict(landmark, page, per_page,
-                                       'api.get_landmark', cityId=cityId, id=id)
+                                       'api.get_landmark', boroughId=boroughId, id=id)
     return jsonify(data)
 
 
-@api.route('/cities/<int:cityId>/landmarks', methods=['POST'])
-def create_landmark(cityId):
+@api.route('/boroughs/<int:boroughId>/landmarks', methods=['POST'])
+def create_landmark(boroughId):
     data = request.get_json() or {}
-    if 'name' not in data or 'description' not in data:
-        return bad_request('must include name and description fields')
+    if 'name' not in data or 'description' not in data or 'date_designated' not in data:
+        return bad_request('must include name, description, and date_designated fields')
     landmark = Landmark()
     landmark.from_dict(data)
-    landmark.city_id = cityId
+    landmark.borough_id = boroughId
     db.session.add(landmark)
     db.session.commit()
     return jsonify(landmark.to_dict()), 201
 
 
-@api.route('/cities/<int:cityId>/landmarks/<int:id>', methods=['PUT'])
-def update_landmark(cityId, id):
+@api.route('/boroughs/<int:boroughId>/landmarks/<int:id>', methods=['PUT'])
+def update_landmark(boroughId, id):
     data = request.get_json() or {}
-    if 'name' not in data or 'description' not in data:
-        return bad_request('must include name and description fields')
+    if 'name' not in data or 'description' not in data or 'date_designated' not in data:
+        return bad_request('must include name, description, and date_designated fields')
     landmark = Landmark.query \
-            .filter(Landmark.city_id == cityId, Landmark.id == id) \
+            .filter(Landmark.borough_id == boroughId, Landmark.id == id) \
             .first_or_404()
     landmark.from_dict(data)
     db.session.commit()
     return '', 204
 
 
-@api.route('/cities/<int:cityId>/landmarks/<int:id>', methods=['PATCH'])
-def partial_update_landmark(cityId, id):
+@api.route('/boroughs/<int:boroughId>/landmarks/<int:id>', methods=['PATCH'])
+def partial_update_landmark(boroughId, id):
     landmark = Landmark.query \
-            .filter(Landmark.city_id == cityId, Landmark.id == id) \
+            .filter(Landmark.borough_id == boroughId, Landmark.id == id) \
             .first_or_404()
     landmark.from_dict(request.get_json() or {})
     db.session.commit()
     return '', 204
 
 
-@api.route('/cities/<int:cityId>/landmarks/<int:id>', methods=['DELETE'])
-def delete_landmark(cityId, id):
+@api.route('/boroughs/<int:boroughId>/landmarks/<int:id>', methods=['DELETE'])
+def delete_landmark(boroughId, id):
     landmark = Landmark.query \
-            .filter(Landmark.city_id == cityId, Landmark.id == id) \
+            .filter(Landmark.borough_id == boroughId, Landmark.id == id) \
             .first_or_404()
     db.session.delete(landmark)
     db.session.commit()

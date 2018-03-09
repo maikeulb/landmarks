@@ -8,26 +8,28 @@ class Landmark(PaginatedAPIMixin, db.Model):
 
     id = db.Column(db.Integer, primary_key=True)
     name = db.Column(db.String(50))
+    date_designated = db.Column(db.DateTime)
     description = db.Column(db.String(140))
-    city_id = db.Column(db.Integer, db.ForeignKey('cities.id'))
+    borough_id = db.Column(db.Integer, db.ForeignKey('boroughs.id'))
 
-    city = db.relationship(
-        'City'
+    borough = db.relationship(
+        'Borough'
     )
 
-    def to_dict(self, include_email=False):
+    def to_dict(self):
         data = {
             'id': self.id,
             'name': self.name,
+            'date_designated': self.date_designated,
             'description': self.description,
             '_links': {
-                'self': url_for('api.get_landmark', cityId=self.city_id, 
+                'self': url_for('api.get_landmark', boroughId=self.borough_id,
                                 id=self.id),
             }
         }
         return data
 
-    def from_dict(self, data, new_user=False):
-        for field in ['name', 'description']:
+    def from_dict(self, data):
+        for field in ['name', 'date_designated', 'description']:
             if field in data:
                 setattr(self, field, data[field])
