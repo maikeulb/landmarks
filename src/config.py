@@ -20,14 +20,17 @@ class Config(object):
     DEBUG = False
     TESTING = False
 
+
 class DevelopmentConfig(Config):
     DEBUG = True
     DEVELOPMENT = True
     DEBUG_TB_ENABLED = True
 
+
 class ProductionConfig(Config):
     DATABASE_URI = ''
     PRODUCTION = True
+
 
 class TestingConfig(Config):
     DEBUG = True

@@ -6,6 +6,12 @@ from app.api.errors import bad_request
 from sqlalchemy import func
 
 
+@api.after_request
+def add_header(response):
+    response.cache_control.max_age = 60
+    return response
+
+
 @api.route('/boroughs', defaults={'search_query': None, 'order_by': None}, methods=['GET'])
 def get_boroughs(search_query, order_by):
     search_query = request.args.get('search_query')
@@ -14,7 +20,8 @@ def get_boroughs(search_query, order_by):
 
     if search_query:
         borough_query = \
-        borough_query.filter(func.lower(Borough.name).contains(func.lower(search_query)))
+            borough_query.filter(func.lower(
+                Borough.name).contains(func.lower(search_query)))
 
     if order_by == 'name':
         borough_query = borough_query.order_by('name')
@@ -22,7 +29,7 @@ def get_boroughs(search_query, order_by):
     page = request.args.get('page', 1, type=int)
     per_page = min(request.args.get('per_page', 10, type=int), 100)
     data = Borough.to_collection_dict(borough_query, page, per_page,
-                                   'api.get_boroughs')
+                                      'api.get_boroughs')
     return jsonify(data), 200
 
 

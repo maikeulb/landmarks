@@ -10,10 +10,8 @@ from app.extensions import (
 )
 from app.api import api as api_bp
 
-Config = eval(os.environ['FLASK_APP_CONFIG'])
 
-
-def create_app(config_class=Config):
+def create_app(config_class):
     app = Flask(__name__)
     app.config.from_object(config_class)
     register_blueprints(app)

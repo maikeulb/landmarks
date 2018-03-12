@@ -5,13 +5,8 @@ from app.models import Borough, Landmark
 from flask import current_app
 from datetime import date
 
+
 def register(app):
-
-    @app.cli.command('init-db')
-    def init_db():
-        db.drop_all()
-        db.create_all()
-
     @app.cli.command("seed-db")
     def seed_db():
         db.drop_all()
