@@ -1,8 +1,8 @@
-"""fixfk
+"""initdb
 
-Revision ID: 742067b3e38a
+Revision ID: 526c0cc9799c
 Revises: 
-Create Date: 2018-03-09 03:47:01.147879
+Create Date: 2018-03-15 06:50:51.370397
 
 """
 from alembic import op
@@ -10,7 +10,7 @@ import sqlalchemy as sa
 
 
 # revision identifiers, used by Alembic.
-revision = '742067b3e38a'
+revision = '526c0cc9799c'
 down_revision = None
 branch_labels = None
 depends_on = None
@@ -26,8 +26,8 @@ def upgrade():
     op.create_table('landmarks',
     sa.Column('id', sa.Integer(), nullable=False),
     sa.Column('name', sa.String(length=50), nullable=True),
+    sa.Column('description', sa.String(length=400), nullable=True),
     sa.Column('date_designated', sa.DateTime(), nullable=True),
-    sa.Column('description', sa.String(length=140), nullable=True),
     sa.Column('borough_id', sa.Integer(), nullable=True),
     sa.ForeignKeyConstraint(['borough_id'], ['boroughs.id'], ),
     sa.PrimaryKeyConstraint('id')
