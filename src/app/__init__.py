@@ -7,6 +7,7 @@ from app import models
 from app.extensions import (
     db,
     migrate,
+    limiter
 )
 from app.api import api as api_bp
 from app.errors import errors as error_bp
@@ -23,6 +24,7 @@ def create_app(config_class):
 def register_extensions(app):
     db.init_app(app)
     migrate.init_app(app, db)
+    limiter.init_app(app)
     return None
 
 

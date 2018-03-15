@@ -1,5 +1,5 @@
 from flask import jsonify, request
-from app import db
+from app.extensions import db, limiter
 from app.models import Borough
 from app.api import api
 from app.api.errors import bad_request
@@ -13,6 +13,7 @@ def add_header(response):
 
 
 @api.route('/boroughs', defaults={'search_query': None, 'order_by': None}, methods=['GET'])
+@limiter.limit("100/day;10/hour;1/minute")
 def get_boroughs(search_query, order_by):
     search_query = request.args.get('search_query')
     order_by = request.args.get('order_by')
