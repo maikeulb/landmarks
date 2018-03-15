@@ -9,6 +9,7 @@ from app.extensions import (
     migrate,
 )
 from app.api import api as api_bp
+from app.errors import errors as error_bp
 
 
 def create_app(config_class):
@@ -27,4 +28,5 @@ def register_extensions(app):
 
 def register_blueprints(app):
     app.register_blueprint(api_bp, url_prefix='/api')
+    app.register_blueprint(error_bp, url_prefix='/errors')
     return None
