@@ -20,7 +20,7 @@ class Landmark(PaginatedAPIMixin, db.Model):
         data = {
             'id': self.id,
             'name': self.name,
-            'date_designated': self.date_designated,
+            'dateDesignated': self.date_designated,
             'description': self.description,
             '_links': {
                 'self': url_for('api.get_landmark', boroughId=self.borough_id,
