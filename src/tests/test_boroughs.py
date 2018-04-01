@@ -3,12 +3,12 @@ from datetime import datetime
 import pytest
 
 
-def _get_borough(testapp, id, **kwargs):
-    return testapp.get(url_for('api.get_borough', id=id), **kwargs)
-
-
 def _get_boroughs(testapp, **kwargs):
     return testapp.get(url_for('api.get_boroughs'), **kwargs)
+
+
+def _get_borough(testapp, id, **kwargs):
+    return testapp.get(url_for('api.get_borough', id=id), **kwargs)
 
 
 def _post_borough(testapp, name, **kwargs):

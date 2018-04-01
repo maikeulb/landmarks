@@ -44,8 +44,8 @@ def get_landmark(boroughId, id):
 @api.route('/boroughs/<int:boroughId>/landmarks', methods=['POST'])
 def create_landmark(boroughId):
     data = request.get_json() or {}
-    if 'name' not in data or 'description' not in data or 'date_designated' not in data:
-        return bad_request('must include name, description, and date_designated fields')
+    if 'name' not in data or 'description' not in data:
+        return bad_request('must include name and description')
     landmark = Landmark()
     landmark.from_dict(data)
     landmark.borough_id = boroughId
@@ -57,8 +57,8 @@ def create_landmark(boroughId):
 @api.route('/boroughs/<int:boroughId>/landmarks/<int:id>', methods=['PUT'])
 def update_landmark(boroughId, id):
     data = request.get_json() or {}
-    if 'name' not in data or 'description' not in data or 'date_designated' not in data:
-        return bad_request('must include name, description, and date_designated fields')
+    if 'name' not in data or 'description' not in data:
+        return bad_request('must include name and description')
     landmark = Landmark.query \
         .filter(Landmark.borough_id == boroughId, Landmark.id == id) \
         .first_or_404()
