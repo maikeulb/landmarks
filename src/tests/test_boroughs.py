@@ -103,3 +103,10 @@ class TestBoroughs:
     def test_404_borough(self, testapp):
         resp = _patch_borough(testapp, 'brooklyn', 2, expect_errors=True)
         assert resp.status_code == 404
+
+    def test_rate_limiter(self, testapp):
+        _post_borough(testapp, 'manhattan')
+        _get_borough(testapp, 1, expect_errors=True)
+        _get_borough(testapp, 1, expect_errors=True)
+        resp = _get_borough(testapp, 1, expect_errors=True)
+        assert resp.status_code == 429

@@ -1,6 +1,6 @@
 import sys
 from flask import jsonify, request
-from app import db
+from app.extensions import db, limiter
 from app.models import Landmark
 from app.api import api
 from app.api.errors import bad_request
@@ -14,6 +14,7 @@ def add_header(response):
 
 
 @api.route('/boroughs/<int:boroughId>/landmarks', defaults={'search_query': None}, methods=['GET'])
+@limiter.limit("100/day;10/hour;1/minute")
 def get_landmarks(boroughId, search_query):
     search_query = request.args.get('search_query')
     landmark_query = Landmark.query.filter(Landmark.borough_id == boroughId)
