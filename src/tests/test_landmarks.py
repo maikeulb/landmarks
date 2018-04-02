@@ -129,11 +129,3 @@ class TestLandmarks:
         _post_borough(testapp, 'manhattan')
         resp = _patch_landmark(testapp, 1, 1, 'empire', expect_errors=True)
         assert resp.status_code == 404
-
-    def test_rate_limiter(self, testapp):
-        _post_borough(testapp, 'manhattan')
-        _post_landmark(testapp, 1, 'woolworth', 'tall building')
-        _get_landmark(testapp, 1, 1, expect_errors=True)
-        _get_landmark(testapp, 1, 1, expect_errors=True)
-        resp = _get_landmark(testapp, 1, 1, expect_errors=True)
-        assert resp.status_code == 429
