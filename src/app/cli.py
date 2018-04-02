@@ -1,8 +1,6 @@
 import os
-import click
 from app.extensions import db
 from app.models import Borough, Landmark
-from flask import current_app
 from datetime import date
 
 HERE = os.path.abspath(os.path.dirname(__file__))

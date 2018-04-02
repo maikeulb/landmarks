@@ -7,8 +7,6 @@ class Config(object):
         'postgresql://postgres:P@ssw0rd!@172.17.0.2/landmarks'
     SQLALCHEMY_TRACK_MODIFICATIONS = False
 
-    POSTS_PER_PAGE = 10
-
     DEVELOPMENT = False
     TESTING = False
     PRODUCTION = False

@@ -9,7 +9,7 @@ def not_found_error(error):
 
 
 @errors.app_errorhandler(429)
-def not_found_error(error):
+def too_many_requests_error(error):
     return api_error_response(429)
 
 

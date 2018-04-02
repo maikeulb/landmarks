@@ -1,3 +1,7 @@
+import functools
+from flask import make_response
+
+
 def cache_control(directives):
     def decorator(f):
         @functools.wraps(f)
