@@ -22,12 +22,12 @@ Endpoints
 | `PUT`      | `/api/boroughs/{bid}`                 | `Update borough`                            |
 | `PATCH`    | `/api/boroughs/{bid}`                 | `Partially update borough`                  |
 | `DELETE`   | `/api/boroughs/{bid}`                 | `Delete borough`                            |
-| `GET`      | `/api/boroughs/{bid}/landmarks`       | `Retrieve all borough's landmarks`<sub>2</sub>|
-| `GET`      | `/api/boroughs/{bid}/landmarks`       | `Retrieve borough's landmark`                 |
+| `GET`      | `/api/boroughs/{bid}/landmarks`       | `Retrieve all borough landmarks`<sub>2</sub>|
+| `GET`      | `/api/boroughs/{bid}/landmarks`       | `Retrieve borough landmark`                 |
 | `POST`     | `/api/boroughs/{bid}/landmarks`       | `Create borough landmark`                   |
 | `PUT`      | `/api/boroughs/{bid}/landmarks/{id}`  | `Update borough landmark`                   |
 | `PATCH`    | `/api/boroughs/{bid}/landmarks/{id}`  | `Partially update borough landmark`         |
-| `DELETE`   | `/api/boroughs/{bid}/landmarks/{id}`  | `Delete borough's landmark`                   |
+| `DELETE`   | `/api/boroughs/{bid}/landmarks/{id}`  | `Delete borough's landmark`                 |
 
 1. Optional query parameters: search_query, order_by
 2. Optional query parameters: search_query
@@ -35,7 +35,7 @@ Endpoints
 Sample Responses
 ---------------
 
-`http get http://localhost:5000/api/landmarks`
+`http get http://localhost:5000/api/boroughs`
 ```
 {
     "_links": {
@@ -74,19 +74,10 @@ Sample Responses
             "name": "Queens", 
             "number_of_landmarks": 2
         }, 
-        {
-            "_links": {
-                "self": "/api/boroughs/4"
-            }, 
-            "id": 4, 
-            "name": "Bronx", 
-            "number_of_landmarks": 1
-        }
-    ]
-}
+...
 ```
 
-`http get http://localhost:5000/api/landmarks/1/boroughs`
+`http get http://localhost:5000/api/boroughs/1/landmarks`
 ```
 {
     "_links": {
@@ -110,26 +101,7 @@ Sample Responses
             "id": 1, 
             "name": "1 Wall Street Building"
         }, 
-        {
-            "_links": {
-                "self": "/api/boroughs/1/landmarks/2"
-            }, 
-            "date_designated": "Tue, 06 Dec 1983 00:00:00 GMT", 
-            "description": "Designed in the neo-Gothic style by architect Cass Gilbert. Originally designed to be 420 feet high, the building was eventually elevated to 792 feet.", 
-            "id": 2, 
-            "name": "Woolworth Building"
-        }, 
-        {
-            "_links": {
-                "self": "/api/boroughs/1/landmarks/3"
-            }, 
-            "date_designated": "Wed, 02 Aug 1967 00:00:00 GMT", 
-            "description": "Designed by Thom & Wilson in the Romanesque Revival style.", 
-            "id": 3, 
-            "name": "Harlem CourtHouse"
-        }
-    ]
-}
+...
 ```
 Run
 ---
@@ -140,9 +112,9 @@ docker-compose up
 Go to http://localhost:5000 and visit one of the above endpoints
 ```
 
-Otherwise, go to `config.py` and point the PostgreSQL and variable
-so that they point to your server URI, set the `FLASK_APP` env variable to
-landmarks.py, and pip install the requirements. 
+Otherwise, go to `config.py` and point the PostgreSQL variable to your server
+URI, set the `FLASK_APP` env variable to landmarks.py, and pip install the
+requirements. 
 
 After all that has been taken care of,
 ```
