@@ -2,7 +2,7 @@
 
 Restful API for NYC [Landmarks](http://www1.nyc.gov/site/lpc/index.page)
 (unofficial). The resources are the boroughs and their landmarks. Additional
-features include hypermedia links, pagination, rate-limiting, and cache
+features include hypermedia links, pagination, search/order, rate-limiting, and cache
 headers. This application is written using flask with minimal dependencies (not
 using a rest framework).
 
@@ -23,7 +23,7 @@ Endpoints
 | `PATCH`    | `/api/boroughs/{bid}`                 | `Partially update borough`                  |
 | `DELETE`   | `/api/boroughs/{bid}`                 | `Delete borough`                            |
 | `GET`      | `/api/boroughs/{bid}/landmarks`       | `Retrieve all borough landmarks`<sub>2</sub>|
-| `GET`      | `/api/boroughs/{bid}/landmarks`       | `Retrieve borough landmark`                 |
+| `GET`      | `/api/boroughs/{bid}/landmarks/{id}`  | `Retrieve borough landmark`                 |
 | `POST`     | `/api/boroughs/{bid}/landmarks`       | `Create borough landmark`                   |
 | `PUT`      | `/api/boroughs/{bid}/landmarks/{id}`  | `Update borough landmark`                   |
 | `PATCH`    | `/api/boroughs/{bid}/landmarks/{id}`  | `Partially update borough landmark`         |
