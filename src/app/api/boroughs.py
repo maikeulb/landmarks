@@ -13,7 +13,7 @@ def add_header(response):
 
 
 @api.route('/boroughs', defaults={'search_query': None, 'order_by': None}, methods=['GET'])
-@limiter.limit("100/day;10/hour;1/minute")
+@limiter.limit("100/day;20/hour;10/minute")
 def get_boroughs(search_query, order_by):
     search_query = request.args.get('search_query')
     order_by = request.args.get('order_by')

@@ -20,17 +20,18 @@ Endpoints
 | `GET`      | `/api/boroughs/{bid}`                 | `Retrieve borough`                          |
 | `POST`     | `/api/boroughs`                       | `Create borough`                            |
 | `PUT`      | `/api/boroughs/{bid}`                 | `Update borough`                            |
-| `PATCH`    | `/api/boroughs/{bid}`                 | `Partially update borough`                  |
+| `PATCH`    | `/api/boroughs/{bid}`                 | `Partially update borough`<sup>2</sup>                  |
 | `DELETE`   | `/api/boroughs/{bid}`                 | `Delete borough`                            |
-| `GET`      | `/api/boroughs/{bid}/landmarks`       | `Retrieve all borough landmarks`<sub>2</sub>|
+| `GET`      | `/api/boroughs/{bid}/landmarks`       | `Retrieve all borough landmarks`<sup>3</sup>|
 | `GET`      | `/api/boroughs/{bid}/landmarks/{id}`  | `Retrieve borough landmark`                 |
 | `POST`     | `/api/boroughs/{bid}/landmarks`       | `Create borough landmark`                   |
 | `PUT`      | `/api/boroughs/{bid}/landmarks/{id}`  | `Update borough landmark`                   |
-| `PATCH`    | `/api/boroughs/{bid}/landmarks/{id}`  | `Partially update borough landmark`         |
+| `PATCH`    | `/api/boroughs/{bid}/landmarks/{id}`  | `Partially update borough landmark`<sup>2</sup> |
 | `DELETE`   | `/api/boroughs/{bid}/landmarks/{id}`  | `Delete borough's landmark`                 |
 
 1. Optional query parameters: search_query, order_by
-2. Optional query parameters: search_query
+2. Send only the fields you need to update
+3. Optional query parameters: search_query
 
 Sample Responses
 ---------------
@@ -99,6 +100,7 @@ Sample Responses
             "date_designated": "Tue, 06 Mar 2001 00:00:00 GMT", 
             "description": "Art-Deco-style skyscraper designed by Ralph Walker,originally built for the Irving Trust Company.", 
             "id": 1, 
+            "borough_id": 1, 
             "name": "1 Wall Street Building"
         }, 
 ...

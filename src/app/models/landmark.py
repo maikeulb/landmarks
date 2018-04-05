@@ -20,8 +20,9 @@ class Landmark(PaginatedAPIMixin, db.Model):
         data = {
             'id': self.id,
             'name': self.name,
-            'date_designated': self.date_designated,
             'description': self.description,
+            'date_designated': self.date_designated,
+            'borough_id': self.id,
             '_links': {
                 'self': url_for('api.get_landmark', boroughId=self.borough_id,
                                 id=self.id),
@@ -30,6 +31,6 @@ class Landmark(PaginatedAPIMixin, db.Model):
         return data
 
     def from_dict(self, data):
-        for field in ['name', 'date_designated', 'description']:
+        for field in ['id', 'name', 'description', 'date_designated', 'borough_id']:
             if field in data:
                 setattr(self, field, data[field])

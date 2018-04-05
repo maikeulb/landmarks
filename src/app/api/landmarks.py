@@ -14,7 +14,7 @@ def add_header(response):
 
 
 @api.route('/boroughs/<int:boroughId>/landmarks', defaults={'search_query': None}, methods=['GET'])
-@limiter.limit("100/day;10/hour;1/minute")
+@limiter.limit("100/day;20/hour;10/minute")
 def get_landmarks(boroughId, search_query):
     search_query = request.args.get('search_query')
     landmark_query = Landmark.query.filter(Landmark.borough_id == boroughId)
