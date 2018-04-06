@@ -1,6 +1,5 @@
-from flask import url_for
-from datetime import datetime, date
 import pytest
+from flask import url_for
 
 
 def _post_borough(testapp, name, **kwargs):

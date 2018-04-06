@@ -16,7 +16,7 @@ Endpoints
 
 | Method     | URI                                   | Action                                      |
 |------------|---------------------------------------|---------------------------------------------|
-| `GET`      | `/api/boroughs`                       | `Retrieve all boroughs`<sub>1</sub>         |
+| `GET`      | `/api/boroughs`                       | `Retrieve all boroughs`<sup>1</sup>         |
 | `GET`      | `/api/boroughs/{bid}`                 | `Retrieve borough`                          |
 | `POST`     | `/api/boroughs`                       | `Create borough`                            |
 | `PUT`      | `/api/boroughs/{bid}`                 | `Update borough`                            |
@@ -114,11 +114,12 @@ docker-compose up
 Go to http://localhost:5000 and visit one of the above endpoints
 ```
 
-Otherwise, go to `config.py` and point the PostgreSQL variable to your server
-URI, set the `FLASK_APP` env variable to landmarks.py, and pip install the
-requirements. 
+Alternatively, create a database named 'landmarks', open `config.py` and point
+the database URI to your server, set the `FLASK_APP` env variable to
+landmarks.py, and install the dependencies (e.g. `pip install -r
+requirements.txt`)
 
-After all that has been taken care of,
+`cd` into `./src` (if you are not already) and run the following:
 ```
 flask db upgrade
 flask seed-db
