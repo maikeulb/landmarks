@@ -1,5 +1,0 @@
-test query parameters
-test cache control header
-test rate-limiting
-test clean required files
-test document pagination
