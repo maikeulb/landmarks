@@ -107,7 +107,7 @@ Sample Responses
 ```
 Run
 ---
-If you have docker installed,
+With docker:
 ```
 docker-compose build
 docker-compose up
@@ -117,9 +117,11 @@ Go to http://localhost:5000 and visit one of the above endpoints
 Alternatively, create a database named 'landmarks', open `config.py` and point
 the database URI to your server, set the `FLASK_APP` env variable to
 landmarks.py, and install the dependencies (e.g. `pip install -r
-requirements.txt`)
+requirements.txt`). Be sure to install the python dependencies using
+`requirements.txt` located in `./landmarks/`, not `./landmarks/requirements/` (I'm working
+on pruning the dev/prod/test dependencies).
 
-`cd` into `./src` (if you are not already) and run the following:
+`cd` into `./landmarks` (if you are not already); then run:
 ```
 flask db upgrade
 flask seed-db
