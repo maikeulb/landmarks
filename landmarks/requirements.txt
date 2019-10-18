@@ -56,4 +56,4 @@ visitor==0.1.3
 waitress==1.1.0
 WebOb==1.7.4
 WebTest==2.0.29
-Werkzeug==0.13
+Werkzeug==0.15.3
